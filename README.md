@@ -1,7 +1,7 @@
 # color-torch-browser
 Browser Client for Color Torch
 
-The browser client uses the mqttSample browser client from aws-samples/aws-iot-examples and modifies it to set color and state, as well as receive state back from AWS IoT.
+The browser client uses the [mqttSample](https://github.com/aws-samples/aws-iot-examples/tree/master/mqttSample) browser client from aws-samples/aws-iot-examples and modifies it to set color and state, as well as receive state back from AWS IoT.
 
 **NOTE:** The bower modules are out-of-date and need to be updated. This will be addressed in a future release.
 
