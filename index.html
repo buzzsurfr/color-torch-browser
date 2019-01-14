@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IoT Color Picker</title>
+    <link type="text/css" rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="./bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css"/>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="container" ng-app="awsiot.sample" ng-controller="AppController as vm">
+      <h1>IoT Color Picker</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <input type="text" class="form-control" id="endpoint" placeholder="EndPoint" ng-model="vm.endpoint" />
+          <input type="hidden" class="form-control" id="regionInput" placeholder="region" ng-model="vm.regionName">
+          <input type="hidden" class="form-control" id="clientId" ng-model="vm.clientId" />
+          <input type="hidden" class="form-control" id="accessKey" placeholder="AWS access key" ng-model="vm.accessKey"/>
+          <input type="hidden" class="form-control" id="secretKey" placeholder="AWS secret key" ng-model="vm.secretKey">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <button id="connectButton" class="btn btn-primary" ng-click="vm.createClient()" ng-disabled="!vm.accessKey || !vm.secretKey">Connect</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-info" ng-repeat="clientCtr in vm.clients.val">
+      <div class="panel-heading">
+        <button type="button" class="close"  ng-click="vm.removeClient(clientCtr)"><span>&times;</span></button>
+        <h3 class="panel-title">Client {{::clientCtr.client.name}}</h3>
+      </div>
+      <div class="panel-body row">
+        <div class="col-md-2 col-sm-3" ng-click="clientCtr.toggleState()">
+          <input type="checkbox" data-toggle="toggle" toggle-loader>
+        </div>
+        <div class="col-md-8 offset-md-2 col-sm-9">
+          <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-danger btn-block" ng-click="clientCtr.changeColor('red')">RED</button>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-warning btn-block" ng-click="clientCtr.changeColor('yellow')">YELLOW</button>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-success btn-block" ng-click="clientCtr.changeColor('green')">GREEN</button>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-info btn-block" ng-click="clientCtr.changeColor('cyan')">CYAN</button>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-primary btn-block" ng-click="clientCtr.changeColor('blue')">BLUE</button>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-magenta btn-block" ng-click="clientCtr.changeColor('magenta')">MAGENTA</button>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-4 nopadding">
+              <button type="button" class="btn btn-white btn-block" ng-click="clientCtr.changeColor('white')">WHITE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body row">
+        <div class="col-md-6">
+          <p>Subscribe to see the messages published to the topic on the left.</p>
+          <div class="form-inline">
+            <div class="form-group">
+              <label for="thingInput">Thing: </label>
+              <input type="text" class="form-control" id="thingInput" placeholder="Thing" ng-model="clientCtr.thingName" />
+            </div>
+            <button class="btn btn-primary" ng-click="clientCtr.subscribe()">Subscribe</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel panel-info" ng-repeat="msg in clientCtr.msgs">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{msg.destination}} -> {{msg.receivedTime | date: 'medium'}}</h3>
+            </div>
+            <div class="panel-body"> {{msg.content}} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <h3>Logs:</h3>
+      <ul class="list-group">
+        <li ng-repeat="log in vm.logs.logs | orderBy:'createdTime':true" class="list-group-item" ng-class="log.className">
+          {{log.createdTime | date: 'medium'}} - {{log.content}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./bower_components/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="./bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="./bower_components/paho-mqtt-js/mqttws31.js"></script>
+<script type="text/javascript" src="./bower_components/cryptojslib/rollups/sha256.js"></script>
+<script type="text/javascript" src="./bower_components/cryptojslib/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+</html>

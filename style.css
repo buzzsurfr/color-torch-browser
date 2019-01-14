@@ -1,0 +1,16 @@
+.btn-magenta {
+  color: #fff;
+  background-color: #d94fd6;
+  border-color: #d13ad4;
+}
+
+.btn-white {
+  color: #000;
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
